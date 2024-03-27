@@ -69,7 +69,7 @@ public class EquationUI extends JFrame {
             double b = Double.parseDouble(bField.getText());
             double c = Double.parseDouble(cField.getText());
 
-            QuadraticEquation equation = new QuadraticEquation(a, b, c);
+            Equation equation = new QuadraticEquation(a, b, c);
             Solution solution = equation.solvingEquation();
             Writer fileWriter = new SolutionFileWriter();
 

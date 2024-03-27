@@ -1,6 +1,7 @@
 package ru.laba.io.reader.impl;
 
 import ru.laba.io.reader.Reader;
+import ru.laba.solver.Equation;
 import ru.laba.solver.impl.QuadraticEquation;
 
 import java.io.BufferedReader;
@@ -10,7 +11,7 @@ import java.io.IOException;
 
 public class EquationFileReader implements Reader {
     @Override
-    public QuadraticEquation readFromFile(File file) {
+    public Equation readFromFile(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine();
             if (line != null) {

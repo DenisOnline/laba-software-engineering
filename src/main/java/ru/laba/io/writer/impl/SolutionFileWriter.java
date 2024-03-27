@@ -22,7 +22,7 @@ public class SolutionFileWriter implements Writer {
 
     @Override
     public void writeGraphToPath(Solution solution, JFreeChart chart) {
-        SolutionFileWriter writer = new SolutionFileWriter();
+        Writer writer = new SolutionFileWriter();
         String resultWrit = writer.createResultString(solution);
         writer.writeToFile(resultWrit, "solution.txt");
 

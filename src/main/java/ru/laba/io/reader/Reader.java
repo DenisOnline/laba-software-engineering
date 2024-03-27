@@ -1,9 +1,9 @@
 package ru.laba.io.reader;
 
-import ru.laba.solver.impl.QuadraticEquation;
+import ru.laba.solver.Equation;
 
 import java.io.File;
 
 public interface Reader {
-    QuadraticEquation readFromFile(File filePath);
+    Equation readFromFile(File filePath);
 }
