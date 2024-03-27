@@ -1,7 +1,16 @@
 package ru.laba.ui;
 
-import ru.laba.io.reader.EquationFileReader;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import ru.laba.graph.GraphBuilder;
+import ru.laba.io.reader.impl.EquationFileReader;
+import ru.laba.io.reader.Reader;
+import ru.laba.io.writer.impl.SolutionFileWriter;
+import ru.laba.io.writer.Writer;
 import ru.laba.solver.Equation;
+import ru.laba.solver.impl.QuadraticEquation;
+import ru.laba.solver.Solution;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -11,7 +20,7 @@ public class EquationUI extends JFrame {
 
     private JTextField aField, bField, cField;
     private JButton submitButton, fileButton;
-    private final EquationFileReader fileReader;
+    private final Reader fileReader;
 
     public EquationUI() {
         setTitle("Equation Input");
@@ -60,9 +69,20 @@ public class EquationUI extends JFrame {
             double b = Double.parseDouble(bField.getText());
             double c = Double.parseDouble(cField.getText());
 
-            Equation equation = new Equation(a, b, c);
+            QuadraticEquation equation = new QuadraticEquation(a, b, c);
+            Solution solution = equation.solvingEquation();
+            Writer fileWriter = new SolutionFileWriter();
 
-            //TODO: решить уравнение через класс Equation и поместить точки решение в класс Solution для построения графика
+            JFreeChart chart = GraphBuilder.buildGraph(solution);
+
+            ChartPanel chartPanel = new ChartPanel(chart);
+            chartPanel.setPreferredSize(new Dimension(800, 600));
+
+            setContentPane(chartPanel);
+            pack();
+            setLocationRelativeTo(null);
+
+            fileWriter.writeGraphToPath(solution, chart);
         });
 
         fileButton.addActionListener(e -> {
@@ -72,7 +92,19 @@ public class EquationUI extends JFrame {
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 Equation equation = fileReader.readFromFile(selectedFile);
+                Solution solution = equation.solvingEquation();
+                Writer fileWriter = new SolutionFileWriter();
 
+                JFreeChart chart = GraphBuilder.buildGraph(solution);
+
+                ChartPanel chartPanel = new ChartPanel(chart);
+                chartPanel.setPreferredSize(new Dimension(800, 600));
+
+                setContentPane(chartPanel);
+                pack();
+                setLocationRelativeTo(null);
+
+                fileWriter.writeGraphToPath(solution, chart);
             }
         });
     }
